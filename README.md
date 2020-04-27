@@ -60,8 +60,8 @@ This software comes with a built-in donation of 0.1% per block-reward to support
 
 ### Runtime Requirements on Linux
 
-- [.Net Core 2.2 SDK](https://www.microsoft.com/net/download/core)
-- [PostgreSQL Database](https://www.postgresql.org/)
+- [.Net Core 2.2 SDK](https://docs.microsoft.com/en-us/dotnet/core/install/linux-package-manager-ubuntu-1804)
+- [PostgreSQL Database](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04)
 - Coin Daemon (per pool)
 - Miningcore needs to be built from source on Linux. Refer to the section further down below for instructions.
 
