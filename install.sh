@@ -92,25 +92,22 @@ sleep 10
 
 echo Installing PostgreSQL.
 sudo apt update -y
-sudo apt install postgresql postgresql-contrib
+sudo apt install postgresql postgresql-contrib -y
 echo Installing PostgreSQL complete.
 sleep 10
 
 
 
-echo Setup MiningCore intial setup.
-sudo -u postgres psql
-sleep 5
+
+sudo -u postgres psql << EOF
 CREATE DATABASE miningcore;
-sleep 5
-echo Please input your psql password you wish to use.
-read PSQLPASS
-create user miningcore with encrypted password $PSQLPASS
-grant all privileges on database miningcore to miningcore
-ALTER ROLE miningcore REPLICATION
-psql \q
-echo Setup MiningCore intial setup complete.
- sleep 10
+create user miningcore with encrypted password 'miningcore';
+ALTER ROLE miningcore REPLICATION;
+ALTER ROLE miningcore Superuser;
+ALTER ROLE miningcore Create role;
+ALTER ROLE miningcore Create DB;
+ALTER ROLE miningcore Bypass RLS;
+EOF
 
 
 
@@ -351,7 +348,7 @@ sudo cat << EOF > /home/pool/miningcore/build/config.json
 }
 EOF
 
-clear
+cd /home/pool/miningcore/build/
 dotnet Miningcore.dll -c config.json
 ;;
 	    
