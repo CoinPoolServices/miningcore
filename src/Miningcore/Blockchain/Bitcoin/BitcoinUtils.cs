@@ -49,6 +49,16 @@ namespace Miningcore.Blockchain.Bitcoin
             return result;
         }
 
+        public static IDestination MultiSigAddressToDestination(string address, Network expectedNetwork)
+        {
+            var decoded = Encoders.Base58Check.DecodeData(address);
+            var networkVersionBytes = expectedNetwork.GetVersionBytes(Base58Type.SCRIPT_ADDRESS, true);
+            decoded = decoded.Skip(networkVersionBytes.Length).ToArray();
+            var result = new ScriptId(decoded);
+
+            return result;
+        }
+
         public static IDestination BechSegwitAddressToDestination(string address, Network expectedNetwork,string bechPrefix)
         {
             var encoder = Encoders.Bech32(bechPrefix);
@@ -58,11 +68,13 @@ namespace Miningcore.Blockchain.Bitcoin
             Debug.Assert(result.GetAddress(expectedNetwork).ToString() == address);
             return result;
         }
-        public static IDestination CashAddrToDestination(string address, Network expectedNetwork)
+        public static IDestination CashAddrToDestination(string address, Network expectedNetwork,bool fP2Sh = false)
         {
             BchAddr.BchAddrData bchAddr = BchAddr.DecodeCashAddressWithPrefix(address);
-            var result = new KeyId(bchAddr.Hash);
-            return result;
+            if(fP2Sh)
+                return new ScriptId(bchAddr.Hash);
+            else
+                return new KeyId(bchAddr.Hash);
         }
     }
 }

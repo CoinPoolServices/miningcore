@@ -154,7 +154,7 @@ namespace Miningcore.Configuration
         public uint CoinbaseTxVersion { get; set; }
 
         /// <summary>
-        /// Default transaction comment for coins that REQUIRE tx comments 
+        /// Default transaction comment for coins that REQUIRE tx comments
         /// </summary>
         public string CoinbaseTxComment { get; set; }
 
@@ -164,11 +164,17 @@ namespace Miningcore.Configuration
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool HasMasterNodes { get; set; }
 
-        [JsonProperty("hasCoinbasePayload")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool HasCoinbasePayload { get; set; }
 
         [JsonProperty("hasFounderFee")]
         public bool HasFounderFee { get; set; }
+
+        [JsonProperty("isFounderPayeeMultisig")]
+        public bool IsFounderPayeeMultisig { get; set; }
+
+        [JsonProperty("hasCoinbaseDevReward")]
+        public bool HasCoinbaseDevReward { get; set; }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [DefaultValue(1.0d)]
@@ -684,11 +690,16 @@ namespace Miningcore.Configuration
         public PoolShareBasedBanningConfig Banning { get; set; }
         public RewardRecipient[] RewardRecipients { get; set; }
         public string Address { get; set; }
-        public string PubKey { get; set; }  // POS coins only 
+        public string PubKey { get; set; }  // POS coins only
         public int ClientConnectionTimeout { get; set; }
         public int JobRebroadcastTimeout { get; set; }
         public int BlockRefreshInterval { get; set; }
-
+        /// <summary>
+        //Set this to false for hybrid coins that do not use pay to pubkey for coinbase,for example IDX
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [DefaultValue(false)]
+        public bool UseP2PK { get; set; }
         /// <summary>
         /// If true, internal stratum ports are not initialized
         /// </summary>
